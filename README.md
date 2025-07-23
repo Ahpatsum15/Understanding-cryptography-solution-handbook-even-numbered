@@ -49,8 +49,8 @@ understanding-cryptography-even-solutions/
 
 In addition to theory, several problems are backed by real Python code:
 
-- [chapter-01/code/1.1.py](chapter-01/code/1.1.py)
-- [chapter-01/code/1.2.py](chapter-01/code/1.2.py) 
+- [chapter-01/1.1.py](chapter-01/1.1.py)
+- [chapter-01/1.2.py](chapter-01/1.2.py) 
 
 Future chapters may include Vigenère cipher cracking, modular arithmetic, and RSA toy implementations.
 
