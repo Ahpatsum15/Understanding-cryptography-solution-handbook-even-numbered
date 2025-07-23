@@ -99,5 +99,5 @@ If you are also solving this book and want to collaborate:
 ## 📫 Contact
 
 **Author**: Mustapha EL BOUAZAOUI  
-📧 [mustaphaelbouazaoui@gmail.com](mailto:mustaphaelbouazaoui@gmail.com)
-🌐 [LinkedIn](https://www.linkedin.com/in/elbouazaouimustapha/)
+- 📧 [mustaphaelbouazaoui@gmail.com](mailto:mustaphaelbouazaoui@gmail.com)
+- 🌐 [LinkedIn](https://www.linkedin.com/in/elbouazaouimustapha/)
