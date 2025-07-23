@@ -1,0 +1,107 @@
+
+\section{Chapter 1: Introduction to Cryptography and Data Security}
+
+\textbf{1.1} See code \href{https://github.com/Ahpatsum15/Understanding-cryptography-solution-handbook-even-numbered/blob/main/chapter%201/1.1.py}{1.1.py}. \\
+
+\textbf{1.2} \\
+We know we are dealing with a shift cipher. Hence, we can perform letter frequency analysis to guess $k$: the number of positions by which the most frequent letter (usually "e" in English) has been shifted. After deciphering, we found: \\
+\textit{"If we all unite, we will cause the rivers to stain the great waters with their blood"} — \href{http://hiaw.org/defcon1/tecumosages.html}{Tecumseh in his speech to the Osages}. \\
+See \href{https://github.com/Ahpatsum15/Understanding-cryptography-solution-handbook-even-numbered/blob/main/chapter%201/1.2.py}{1.2.py} for the code used. \\
+
+\textbf{1.3} \\
+There's a small mistake in the solution, as the ASIC costs \$50, not \$100. \\
+
+\textbf{1.4}
+\begin{enumerate}
+    \item For each letter, there are 128 possible characters. Since we have 8 letters, the size of the key space is $128^8$.
+    \item Each letter uses 7 bits, so the key length is $7 \times 8 = 56$ bits.
+    \item Similarly, if only lowercase letters are used, the size of the key space is $26^8$.
+    \item Representing 26 letters requires $\frac{\log 26}{\log 2} \approx 4.7$ bits, which rounds up to 5 bits per character. Hence, the key length is $5 \times 8 = 40$ bits.
+    \item 
+    \begin{enumerate}
+        \item For 7-bit characters, we need $\frac{128}{7} \approx 18.3$, so we need at least 19-character passwords.
+        \item For 26 lowercase letters, we need $\frac{128}{5} = 25.6$, so we need 26-character passwords.
+    \end{enumerate}
+\end{enumerate}
+
+\textbf{1.5} \textit{Hint:} Use the identity $p^n - 1 = (p - 1)\left(\sum_{i=0}^{n-1} p^i\right)$. Straightforward calculation. \\
+
+\textbf{1.6}\\
+
+    \begin{tabular}{|p{4cm}|c|c|p{4cm}|}
+        \hline
+        Attacker & Can read? & Can alter? & Why? \\
+        \hline     
+        Hacker between Alice and base station A & No & No & Sees only $y_1$ and does not have $k_1$. \\
+        \hline
+        Mobile operator on A & Yes & Yes & Controls base station A and knows $k_1$ and $k_2$. \\
+        \hline
+        National law enforcement agency & Yes & Yes & Same reason as (b) or (e), once access is obtained. \\
+        \hline
+        An intelligence agency of a foreign country & No & No & Only sees $y_2$. \\
+        \hline
+        Mobile operator on B & Yes & Yes & Same reason as (b). \\
+        \hline
+        Hacker between Bob and base station B & No & No & Only sees $y_3$ and does not know $k_3$. \\
+        \hline
+    \end{tabular}
+    \begin{itemize}
+
+    
+        \item None can read or alter the message, since they only see $c$, which only Alice and Bob can decrypt using their mutual key $k_{AB}$.
+    \end{itemize}
+
+\textbf{1.7} Easy. \\
+
+\textbf{1.8}
+\begin{itemize}
+    \item $5 \times 8 = 40 \equiv 1 \mod{13}$
+    \item $5 \times 3 = 15 \equiv 1 \mod{7}$
+    \item $3 \times 2 \times 5^{-1} = 6 \times 3 = -3 \equiv 4 \mod{7}$
+\end{itemize}
+
+\textbf{1.9} Straightforward. \\
+
+\textbf{1.10}
+\begin{itemize}
+    \item $5 \times 9 = 45 \equiv 1 \mod{11}$
+    \item $5 \times 5 = 25 \equiv 1 \mod{12}$
+    \item $5^{-1} \equiv 8 \mod{13}$
+\end{itemize}
+Hence, the multiplicative inverse of a number (if it exists) depends on the ring we are working in (e.g., $\mathbb{Z}_{11}$, $\mathbb{Z}_{12}$, etc.). \\
+
+\textbf{1.11} Straightforward calculation. \\
+
+\textbf{1.12}
+\begin{itemize}
+    \item $\phi(4) = 2$
+    \item $\phi(5) = 4$
+    \item $\phi(9) = 6$
+    \item $\phi(26) = 12$
+\end{itemize}
+
+\textbf{1.13} \textit{See code \href{https://github.com/Ahpatsum15/Understanding-cryptography-solution-handbook-even-numbered/blob/main/chapter%201/1.13.py}{1.13.py}.} \\
+
+\textbf{1.14}
+\begin{itemize}
+    \item $y = a \cdot x + b \mod 30$
+    \item $30 \times 30 = 900$
+    \item Using \texttt{pow(17,-1,30)}, we get $17^{-1} \equiv 23 \mod 30$. The corresponding plaintext is \textbf{FRODO}.
+    \item ?
+\end{itemize}
+
+\textbf{1.15} Simple manipulation of the two affine equations: subtract one from the other. The inverse exists because $\gcd(x_1, m) = \gcd(x_2, m) = 1$ (since $b_1$ and $b_2$ are non-zero), so $\gcd(x_2 - x_1, m) = 1$. \\
+
+\textbf{1.16}
+\begin{enumerate}
+    \item $b_3 = a_2 \cdot b_1 + b_2$ and $a_3 = a_2 \cdot a_1$
+    \item $a_3 = 7$ and $b_3 = 10$
+    \item $K = 10 \rightarrow 9 \rightarrow 2$, and using the formula from (2), we get $K \rightarrow 2$
+    \item The effective key space does not change: $26 \times 26$
+\end{enumerate}
+
+\textbf{1.17} See odd-numbered solution. \\
+
+
+
+%This is left intentionally
