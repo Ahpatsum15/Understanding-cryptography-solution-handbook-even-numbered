@@ -38,8 +38,9 @@ understanding-cryptography-even-solutions/
 | Chapter | Title                                | Status     |
 |---------|--------------------------------------|------------|
 | 1       | Introduction to Cryptography         | ✅ Complete |
-| 2       | Stream Cipher                        | 🚧 In Progress |
-| 3+      | ...                                   | 🔜 Coming soon |
+| 2       | Stream Cipher                        | ✅ Complete |
+| 3       | DES                                  | 🚧 In Progress |
+| 4+      | ...                                  | 🔜 Coming soon|
 
 > ✍️ Solutions are written chapter-by-chapter, not exercise-by-exercise, to enhance learning and documentation quality.
 
