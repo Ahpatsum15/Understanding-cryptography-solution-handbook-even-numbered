@@ -1,0 +1,224 @@
+\section{Stream cipher}
+
+\textbf{2.1}
+\begin{enumerate}
+    \item $y_i = x_i + k_i \mod{26}$
+    \item $x_i = y_i - k_i \mod{26}$
+\end{enumerate}
+for binary, when decoding we do $x_i = y_i + k_i \mod{2}$ because $-$ and $+$ operations in $\mathbb{Z}_2$ are the same.\\
+\textbf{2.2}\\
+\textbf{The lifecycle of the key-DVD:}
+\begin{itemize}
+    \item Creation: it should be created from a TRNG.
+    \item Usage: a key segment must be used only once and only for one message. If reused(even partially), it compromises security.
+    \item Destruction: Once used, the key material must be securely deleted and not just erased(recovery via forensics).
+\end{itemize}
+\textbf{Storage of the key:}
+\begin{itemize}
+    \item During usage: \begin{itemize}
+        \item Access to the DVD must be controlled.
+        \item Requires physically secure environments.
+    \end{itemize}
+    \item After usage: Shredded or destroyed using secure media destruction methods and no copies or backups should remain.
+\end{itemize}
+\textbf{Key distribution:}
+\begin{itemize}
+    \item Two identical copies should be distributed to both parties.
+    \item  high risk of interception during delivery of the key $\Rightarrow$ tampering or duplication without detection. 
+\end{itemize}
+\textbf{Scalability:}\\
+it's not scalable, for $n$ users wanting to communicate securely, we need $\binom{n}{2}$ $\approx$ $O(n^2)$ keys.\\
+
+\noindent \textbf{Operational implication:}
+\begin{itemize}
+    \item Message length: with a 1 Gigabyte key-DVD, we can only encrypt 1 Gigabyte of data maximum.
+    \item Human error: with such system, there's high chance to human errors (reusing a key part, not destroying it properly) which is fatal to security.
+\end{itemize}
+
+\textbf{2.3}\\
+We have $Y_i = X_i \oplus K_i$, and it's periodic, hence we only need the first 128 keys to decipher all the text. So, this is vulnerable to \textit{known-plaintext attacks} or if the first 128 bits (16 bytes) are predictable (headers, protocols ...).\\
+
+\textbf{2.4}\\
+we have $y_i = x_i + k_i \mod{2}$ for $i \in [| 0,39|]$.Hence, there's $2^{40}$ possible keys.\\
+Let's suppose an attacker tries every possible key $k'$ $\in \{0,1\}^{40}$:
+\begin{equation*}
+    x' = y\oplus k'
+\end{equation*}
+Then they get $2^{40}$ possible plaintexts, each one perfectly plausible.\\
+The attacker has no way to know which one is the correct plaintext, because every possible key \textbf{maps} leads to a valid-looking plaintext.\\
+
+\textbf{2.5}\\
+hint: from hexadecimal to binary, we transform each number separately so that every couple transforms into an 8-bit. e.g $6a \rightarrow 0110 1010$.\\
+Hence with straightforward calculation, the text is \textbf{LetsEncryptThisBook}.\\
+
+\textbf{2.6}\\
+
+OTP offers provable security, but for instant messaging or emails it has two major drawbacks:
+\begin{itemize}
+    \item Not fast: The key should be as long as the message itself. Which means more packets to send each time you want to send a message.
+    \item One-use only: The key should be used once, hence each time there's the need to share secretly the key (either physically or through more complicated and slow processus). 
+\end{itemize}
+For this reason, applications such as instant messaging or emails are not practical for OTP use. \\
+
+\textbf{2.7}
+\begin{enumerate}
+    \item 0010111
+    \item 0111001
+    \item The second sequence is a rotation of the first one $RT^{3L}$
+\end{enumerate}
+
+\textbf{2.8}\\
+In the case of short period stream cipher, we can easily use known-plaintext attacks to recover the first 200 bits of the key. It's plausible, because it corresponds to 25 bytes of information (which is most likely the header used for a protocol). Since \begin{equation*}
+    k_i = y_i \oplus x_i , i\in [|0,199|]
+\end{equation*}
+Afterward, we can easily determine the period T (using an algorithm or by brute force).\\
+Finally, we can decipher the rest of the text using
+\begin{equation*}
+    x_i = y_i \oplus k_{i \mod{T}}
+\end{equation*}
+
+\textbf{2.9}
+hint: $(FF)_{16} = (11111111)_2$
+and $(0,2,3,4,8) \Rightarrow X^8 + X^4 + X^3 + X^2 + 1$ \\
+Unless I am mistaken, there's an error in the schema used, and the polynomial represented in the schema is $X^8 + X^4 + X^3+X+1$. Thus, the solution is $(1101000011111111)_2 = (D0FF)_{16}$
+
+\textbf{2.10}
+\begin{enumerate}
+    \item \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{chapter-02/lfsr1.png}
+    \caption{LFSR structure for the $X^4 + X+1$}
+    \label{fig:lfsr1}
+\end{figure}
+\begin{itemize}
+    \item This polynomial is primitive over $\mathbb{F}_2$.
+    \item it generates maximum-length sequence of length 15.
+\end{itemize}
+    \item 
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.5\linewidth]{chapter-02/lfsr2.png}
+        \caption{LFSR structure for $X^4 + X^2+1$}
+        \label{fig:lfsr2}
+    \end{figure}
+    \begin{itemize}
+        \item This polynomial is irreducible but not primitive over $\mathbb{F}_2$
+        \item The sequence length doesn't depends on the initial value
+        \item sequence length 5
+    \end{itemize}
+    \item 
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.5\linewidth]{chapter-02/lfsr3.png}
+        \caption{LFSR structure for $X^4 + X^3+X^2+X+1$}
+        \label{fig:lfsr3}
+    \end{figure}
+    \begin{itemize}
+        \item This polynomial is reducible over $\mathbb{F}_2$
+        \item factor $(X^2+X+1)^2$
+        \item The sequence length depends on the initial value.
+    \end{itemize}
+\end{enumerate}
+
+\textbf{2.11}\\
+For a LSFR of degree $m$, you only need $2m$ = $512$-bit pair.
+The key formula is \begin{equation*}
+    S_{m+i} = \sum_{j=0}^{m-1} p_j . S_{j+i} 
+\end{equation*}
+and gaussian elimination to retrieve $p_j$ and easily build the system.\\
+
+\textbf{2.12}
+\begin{enumerate}
+    \item $K = Y \oplus X$. We find: $K = (0010111)_2$ $\rightarrow $ the period is $7$, hence the degree of LFSR is $2^m - 1 = 7 \Rightarrow m = 3$
+    \item The initialization vector is = $(111)_2$ [initial content of the key].
+    \item We find $X^3 + X + 1 \Rightarrow (3,1,0)$
+    \item easy to verify with $S_{i+3} = S_{i+2} + S_i \mod{2} $
+\end{enumerate}
+
+\textbf{2.13}
+known plaintext-attack. The key is to notice the first parts of the key are actually the initialization vector $(111111)_2$, and using the stream cipher equation \begin{equation*}
+    S_{i+5} = \sum_{i=0}^{5} p_j.S_{i+j}
+\end{equation*}
+we find an easy system to solve: 
+\begin{equation*}
+    \begin{pmatrix}
+        p_0\\
+        p_1\\
+        p_2\\
+        p_3\\
+        p_4\\
+        p_5
+    \end{pmatrix} = \begin{pmatrix}
+        1\\
+        1\\
+        0\\
+        0\\
+        0\\
+        0
+    \end{pmatrix}
+\end{equation*}
+from here we just need to build the LFSR, find the key and XOR it with ciphertext. \\
+
+\textbf{2.14}
+Let's start with converting from ASCII to decimal (you can use some \href{https://www.rapidtables.com/convert/number/ascii-hex-bin-dec-converter.html}{online converter}):
+\begin{itemize}
+    \item G $\Leftrightarrow$ 71 
+    \item I $\Leftrightarrow$ 73
+    \item F $\Leftrightarrow$ 70
+\end{itemize}
+
+using the encoding equations we have : 
+\begin{align*}
+    32 \equiv 71 + z_1 \mod{257} \\
+    166 \equiv 73 + z_2 \mod{257}\\
+    87 \equiv 70 + z_3 \mod{257}
+\end{align*}
+hence $z_1 = 218$, $z_2 = 93$ and $z_3 = 17$. Moreover, we have : 
+\begin{align*}
+    218 \equiv a.z_0 + b \mod{257} \\
+     93 \equiv 218.a + b \mod{257} \\
+    17 \equiv 93.a + b \mod{257} \\
+\end{align*}
+taking the (2) - (3), we have $125.a \equiv 75 \mod{257}$. we have $gcd(125,257)=1$, you can use the python function \textit{pow(125,-1,257)=220} to find the reverse of 125 modulo 257.\\
+Thus, $a \equiv 15 \mod{257}$, $b=164$ and $z_0 = 55$ (we calculate the inverse of a similarly as above).\\
+This attack is \textbf{known-plaintext attack} and the prerequisites are minimal : \begin{itemize}
+    \item The ciphertext values.
+    \item the modulus m. (in case of image encrypting, it's well-known value).
+    \item at least 3 bytes of the plaintext. (structure or fixed parts of the plaintext. (e.g. headers like \underline{GIF98a})
+\end{itemize}
+ 
+\textbf{2.15}\\
+Inserting the values in the equations $z_(i+2) \equiv a.z_{i+1} + b.z_i+c \mod{257}$ gives us a linear system with 3 equations and 3 unknowns. Easy solving with Gaussian elimination or we solve the system directly using the NumPy library in Python.\\
+
+\textbf{2.16}\\
+The initial state consist of:
+$\begin{pmatrix}
+    c_0 & k_0&k_1 & k_2\\
+    k_3 & c_1 & n_0 & n_1 \\
+    p_0 & p_1 & c_2 & k_4 \\
+    k_5 & k_6 & k_7 & c_3
+\end{pmatrix}$
+
+where $k_i $ are the keys, $p_i$ counter for the position of the current 512-bit block , $n_i$ is the nonce used, and $c_i$ are given by the ASCII encoded string "expand 32-byte k"\footnote{'expa' $\rightarrow$ 65 78 70 61, but we use little-endian representation as '0x61707865' because salsa20 was designed with performance on mind on little-endian architecture (like x86 CPUs)}.\\
+Thus,\\
+\begin{equation*}
+\begin{pmatrix}
+    0x61707865  & 0x00000000 & 0x00000000 & 0x00000000 \\
+    0x00000000 & 0x3320646e & 0x00000000 & 0x00000000 \\
+    0x00000000 & 0x00000000 & 0x79622d32 & 0x00000000 \\
+    0x00000000 & 0x00000000 & 0x00000000 & 0x6b206574
+\end{pmatrix}
+\end{equation*}
+
+\textbf{2.17}
+straightforward calculation, other than $ROTL^7$ that needs to convert it to binary before doing it. And we have as a result 
+\begin{equation*}
+    QR(a,b,c,d)= 0x10000001, 0x80808808, 0x01010110, 0x01000110
+\end{equation*}
+
+\textbf{2.18}\\
+We first need to initialise A, B and C. given: \\
+A \# Key (80 zeros) + 10 zeros + 111\\
+B \# IV (80 zeros) + 1111 \\
+C \# 108 zeros + 111\\
+using the code \href{https://github.com/Ahpatsum15/Understanding-cryptography-solution-handbook-even-numbered/blob/main/chapter-02/trivium.py}{trivium.py} the answer is: \\$0010110111000101100000000000000000000000000000000000000000000000000000$
